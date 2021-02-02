@@ -14,11 +14,9 @@ import (
 	"time"
 )
 
-// Make sure X509CRL implements telegraf.Input
-var _ telegraf.Input = &X509CRL{}
-
-var InvalidCRL = fmt.Sprintf("-----BEGIN X509 CRL-----\n%s\n-----END X509 CRL-----\n", base64.StdEncoding.EncodeToString([]byte("Invalid CRL")))
-var ValidCRL = fmt.Sprintf("-----BEGIN X509 CRL-----\n%s\n-----END X509 CRL-----\n", `MIIB2zCBxDANBgkqhkiG9w0BAQsFADCBlDELMAkGA1UEBhMCRlIxDzANBgNVBAgT
+const x509CRLHeader = "-----BEGIN X509 CRL-----"
+const x509CRLFooter = "-----END X509 CRL-----"
+const ValidCRLBody = `MIIB2zCBxDANBgkqhkiG9w0BAQsFADCBlDELMAkGA1UEBhMCRlIxDzANBgNVBAgT
 BkFsc2FjZTETMBEGA1UEBxMKU3RyYXNib3VyZzEdMBsGA1UEChMUQWxzYWNlIFJl
 c2VhdSBOZXV0cmUxCzAJBgNVBAMTAmFjMQ8wDQYDVQQpEwZBQyBWUE4xIjAgBgkq
 hkiG9w0BCQEWE2V4YW1wbGVAZXhhbXBsZS5jb20XDTIwMDIwNTE1NDUyM1oXDTIw
@@ -28,7 +26,20 @@ EwMY6e3O2MHV0xnFG57O/OGwp8EDZt+LWhxPqoIdu67dWzyZabQtoWTxXBpabNk/
 ffLXxnj9p+9oBTbdV0uEzau9rZ8o0fER8+2KJg09x5QtRkb6DHKinN1m6wjWTZcp
 ketfLeZgB1eH8Gg0QDU5nXls34Eenqx9vpZly/LY/WgT4Oy70mvzfnBvsx+0kLXT
 NE30kCyqvZVWvnJ3abSkIEUk6vZ9oeJCK5xA3Sfikw2RWrgrmJ8fB4pphp+QxhY=
-`)
+`
+const InvalidCRLBody = base64.StdEncoding.EncodeToString([]byte("Invalid CRL"))
+
+// Make sure X509CRL implements telegraf.Input
+var _ telegraf.Input = &X509CRL{}
+
+var InvalidCRL = fmt.Sprintf("%s\n%s\n%s\n",
+	x509CRLHeader,
+	InvalidCRLBody,
+	x509CRLFooter)
+var ValidCRL = fmt.Sprintf("%s\n%s\n%s\n",
+	x509CRLHeader,
+	ValidCRLBody,
+	x509CRLFooter)
 
 func TestWhenSourceIsNotFileGotFailure(test *testing.T) {
 	if testing.Short() {
