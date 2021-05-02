@@ -1,6 +1,24 @@
 # X509 CRL Input Plugin
 
 This plugin provides information about X509 CRL accessible via file.
+### Installation
+
+- Clone the repository
+```
+git clone git@github.com:jcgonnard/telegraf-input-x590crl.git
+```
+
+- Build the plugin
+```
+go build -o x509_crl cmd/main.go
+```
+
+- Call it from telegraf
+```
+[[inputs.execd]]
+  command = ["/path/to/x509_crl"]
+  signal = "none"
+```
 
 
 ### Configuration
@@ -31,5 +49,5 @@ This plugin provides information about X509 CRL accessible via file.
 ### Example output
 
 ```
-x509_crl,issuer:CN=ac,O=Alsace\ Reseau\ Neutre,L=Strasbourg,ST=Alsace,C=FR,source:/tmp/x509crl_tmp_file241751718,version:0 end_date:1583509523i,has_expired:false,revoked_certificates:0i,start_date:1580917523i 1563582256000000000
+x509_crl,issuer:CN=ac,O=Alsace\ Reseau\ Neutre,L=Strasbourg,ST=Alsace,C=FR,source:/tmp/x509crl_tmp_file241751718,version:0 end_date:1583509523i,has_expired:false,revoked_certificates:0i,expiry:42i,start_date:1580917523i 1563582256000000000
 ```
