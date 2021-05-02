@@ -7,7 +7,7 @@ import (
 	"time"
 
 	// TODO: import your plugins
-	_ "github.com/jcgonnard/telegraf-input-x590crl"
+	_ "github.com/jcgonnard/telegraf-input-x590crl/plugins/inputs/x509_crl"
 
 	"github.com/influxdata/telegraf/plugins/common/shim"
 )

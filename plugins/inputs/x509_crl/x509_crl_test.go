@@ -27,14 +27,13 @@ ffLXxnj9p+9oBTbdV0uEzau9rZ8o0fER8+2KJg09x5QtRkb6DHKinN1m6wjWTZcp
 ketfLeZgB1eH8Gg0QDU5nXls34Eenqx9vpZly/LY/WgT4Oy70mvzfnBvsx+0kLXT
 NE30kCyqvZVWvnJ3abSkIEUk6vZ9oeJCK5xA3Sfikw2RWrgrmJ8fB4pphp+QxhY=
 `
-const InvalidCRLBody = base64.StdEncoding.EncodeToString([]byte("Invalid CRL"))
 
 // Make sure X509CRL implements telegraf.Input
 var _ telegraf.Input = &X509CRL{}
 
 var InvalidCRL = fmt.Sprintf("%s\n%s\n%s\n",
 	x509CRLHeader,
-	InvalidCRLBody,
+	base64.StdEncoding.EncodeToString([]byte("Invalid CRL")),
 	x509CRLFooter)
 var ValidCRL = fmt.Sprintf("%s\n%s\n%s\n",
 	x509CRLHeader,
