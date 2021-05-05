@@ -16,7 +16,7 @@ go build -o x509_crl cmd/main.go
 - Call it from telegraf
 ```toml
 [[inputs.execd]]
-  command = ["/path/to/x509_crl"]
+  command = ["/path/to/x509_crl", "-config", "/path/to/x509_crl.conf"]
   signal = "none"
 ```
 
